@@ -1,0 +1,7 @@
+.vscode
+.stack-work
+app
+*.elf
+*.bin
+*.exe
+*.o
