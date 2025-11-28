@@ -1,4 +1,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# HLINT ignore "Monoid law, left identity" #-}
+{-# HLINT ignore "Monoid law, right identity" #-}
 
 module Main (main) where
 
