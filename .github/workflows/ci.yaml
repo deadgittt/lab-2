@@ -28,6 +28,14 @@ jobs:
         with:
           stack: true
         
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/bin
+          key: ${{ runner.os }}-tools-${{ hashFiles('**/stack.yaml.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-tools-
+
       - name: Show Stack version
         run: |
           stack --version
