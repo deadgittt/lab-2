@@ -1,4 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
+
 {-# HLINT ignore "Monoid law, left identity" #-}
 {-# HLINT ignore "Monoid law, right identity" #-}
 
@@ -91,6 +92,15 @@ main = hspec $ do
             member 9 bagNums `shouldBe` False
         it "toList for ints returns sorted with multiplicity" $
             toList bagNums `shouldBe` [1, 2, 2, 5]
+
+    describe "Additional Eq tests (because of new implementation)" $ do
+        let bagA = foldl (flip insert) empty ([2, 1, 3, 2] :: [Int])
+            bagB = insert 3 (insert 2 (insert 1 (insert 2 empty))) :: Bag Int
+            bagC = fromList [1, 2, 3] :: Bag Int
+        it "bags with same multiset but different shape are equal" $
+            bagA `shouldBe` bagB
+        it "bags with different multisets are not equal" $
+            bagA `shouldNotBe` bagC
 
     describe "Monoid axioms" $ do
         it "left identity" $

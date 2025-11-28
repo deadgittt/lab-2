@@ -43,7 +43,10 @@ newtype Bag a = Bag (Tree (Entry a))
     deriving (Show)
 
 instance (Ord a) => Eq (Bag a) where
-    a == b = entriesTree a == entriesTree b
+    (Bag t1) == (Bag t2) = eqTreeEntries t1 t2
+
+-- Было:
+-- a == b = entriesTree a == entriesTree b
 
 -- Вспомогательные функции для Entry
 -- Получения ключа (элемента) из Entry a
@@ -197,3 +200,22 @@ entries (Node l e r) = entries l ++ [(entryKey e, entryCount e)] ++ entries r
 -- Получение списка (элемент, количество) из Bag
 entriesTree :: Bag a -> [(a, Int)]
 entriesTree (Bag t) = entries t
+
+-- Сравнение двух деревьев по упорядоченному обходу (без приведения к списку)
+eqTreeEntries :: (Ord a) => Tree (Entry a) -> Tree (Entry a) -> Bool
+eqTreeEntries = go [] []
+  where
+    go stack1 stack2 t1 t2 =
+        case (next stack1 t1, next stack2 t2) of
+            (Nothing, Nothing) -> True
+            (Just (e1, s1', c1'), Just (e2, s2', c2')) ->
+                e1 == e2 && go s1' s2' c1' c2'
+            _ -> False
+
+-- Взять следующий элемент симметричным обходом и вернуть новый стек/текущий узел
+next :: [Tree a] -> Tree a -> Maybe (a, [Tree a], Tree a)
+next stack Empty =
+    case stack of
+        [] -> Nothing
+        (Node _ e r) : rest -> Just (e, rest, r)
+next stack (Node l e r) = next (Node l e r : stack) l
