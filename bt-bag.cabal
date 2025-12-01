@@ -1,0 +1,25 @@
+cabal-version:       >=1.10
+name:                bt-bag
+version:             0.1.0.0
+build-type:          Simple
+license:             MIT
+license-file:        LICENSE
+author:              Yaroslav Gaiderov
+maintainer:          yaroslavgaiderov@mail.ru
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Bag
+  other-modules:       Tree
+  build-depends:       base >=4.14 && <5
+  default-language:    Haskell2010
+
+test-suite bt-bag-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base >=4.14 && <5
+                     , bt-bag
+                     , hspec >=2.9
+                     , QuickCheck >=2.14
+  default-language:    Haskell2010

@@ -5,3 +5,5 @@ app
 *.bin
 *.exe
 *.o
+dist-newstyle
+Playground.hs
